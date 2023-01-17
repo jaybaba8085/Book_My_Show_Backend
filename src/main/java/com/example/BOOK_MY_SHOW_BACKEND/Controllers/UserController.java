@@ -25,6 +25,9 @@ public class UserController {
         return "Successfully Added";
     }
 
+   //Find UserBy UserName
 
+
+    //Find All Users
 
 }

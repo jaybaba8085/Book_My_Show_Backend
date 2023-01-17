@@ -1,6 +1,10 @@
 package com.example.BOOK_MY_SHOW_BACKEND.Models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,6 +15,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "shows")
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ShowEntity {
 
 
@@ -21,6 +29,8 @@ public class ShowEntity {
     private LocalDate showDate;
 
     private LocalTime showTime;
+
+    private double multiplier;
 
 
     @CreationTimestamp
@@ -47,4 +57,6 @@ public class ShowEntity {
 
     @OneToMany(mappedBy = "show",cascade = CascadeType.ALL)
     private List<TicketEntity> listOfTickets;
+
+
 }

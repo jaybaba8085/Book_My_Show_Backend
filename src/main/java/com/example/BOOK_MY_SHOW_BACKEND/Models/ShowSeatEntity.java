@@ -1,11 +1,19 @@
 package com.example.BOOK_MY_SHOW_BACKEND.Models;
 import com.example.BOOK_MY_SHOW_BACKEND.Enums.SeatType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "show_seats")
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ShowSeatEntity {
 
     @Id
@@ -30,4 +38,6 @@ public class ShowSeatEntity {
     @ManyToOne
     @JoinColumn
     private TicketEntity ticket;
+
+
 }

@@ -21,4 +21,9 @@ public class TheaterController {
         return theaterService.createTheater(theaterRequestDto);
 
     }
+
+    //get Theater BY theater Id
+
+
+    //Get All Theaters
 }
