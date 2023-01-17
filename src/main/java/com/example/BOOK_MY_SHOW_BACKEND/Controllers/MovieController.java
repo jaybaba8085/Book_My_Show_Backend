@@ -22,4 +22,7 @@ public class MovieController {
     }
 
     //Get movie by Name
+
+
+    //get movie by id
 }
