@@ -1,12 +1,21 @@
 package com.example.BOOK_MY_SHOW_BACKEND.Models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name="tickets")
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class TicketEntity {
 
     @Id

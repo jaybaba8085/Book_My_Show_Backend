@@ -46,7 +46,7 @@ public class TheaterService {
 
 
         List<TheaterSeatEntity> seats = new ArrayList<>();
-//
+
 //        TheaterSeatEntity theaterSeat1 = new TheaterSeatEntity("1A", SeatType.CLASSIC,100);
 //        TheaterSeatEntity theaterSeat2 = new TheaterSeatEntity("1B", SeatType.CLASSIC,100);
 //        TheaterSeatEntity theaterSeat3 = new TheaterSeatEntity("1C", SeatType.CLASSIC,100);
@@ -58,6 +58,7 @@ public class TheaterService {
 //        TheaterSeatEntity theaterSeat9 = new TheaterSeatEntity("2D", SeatType.PLATINUM,200);
 //        TheaterSeatEntity theaterSeat10 = new TheaterSeatEntity("2E", SeatType.PLATINUM,200);
 
+        
         for(int i=0;i<5;i++){
 
             char ch = (char)('A'+i);
