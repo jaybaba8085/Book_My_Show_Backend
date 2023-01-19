@@ -31,14 +31,13 @@ public class TicketController {
             }
         }
 
-        @GetMapping("/printTicket")
-       public String printTicket(@RequestParam("id") int ticketId) throws Exception {
-
-            try {
-                return ticketService.printTicket(ticketId);
-            } catch (Exception e) {
-                return "Ticket Id Does Not Exist";
-            }
-
-        }
+//        @GetMapping("/printTicket")
+//       public String printTicket(@PathVariable int ticketId) throws Exception {
+//
+//            try {
+//                return ticketService.printTicket(ticketId);
+//            } catch (Exception e) {
+//                return "Ticket Id Does Not Exist";
+//            }
+//        }
     }

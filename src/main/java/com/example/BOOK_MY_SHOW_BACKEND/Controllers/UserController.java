@@ -4,10 +4,7 @@ package com.example.BOOK_MY_SHOW_BACKEND.Controllers;
 import com.example.BOOK_MY_SHOW_BACKEND.RequestDto.UserRequestDto;
 import com.example.BOOK_MY_SHOW_BACKEND.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 
@@ -29,5 +26,17 @@ public class UserController {
 
 
     //Find All Users
+
+    //print ticket booked by user
+
+    @GetMapping(value = "/{userId}")
+    public String printTicket(@PathVariable int userId) throws Exception {
+
+        try {
+            return userService.printTicket(userId);
+        } catch (Exception e) {
+            return "Ticket Id Does Not Exist";
+        }
+    }
 
 }

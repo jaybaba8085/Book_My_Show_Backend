@@ -151,30 +151,4 @@ public class TicketService {
         return  "Ticket Successfully Cancelled And Charge Deducted :" + charge ;
     }
 
-    public String printTicket(int ticketId) throws Exception {
-
-        Optional<TicketEntity> ticketEntity = ticketRepository.findById(ticketId);
-
-        if (!ticketEntity.isPresent()) {
-            throw new Exception("Ticket with given id not found");
-        }
-   try{
-       TicketEntity ticket = ticketEntity.get();
-
-       List<ShowSeatEntity> bookedSeats = ticket.getBookedSeats();
-       String movieName = ticket.getShow().getMovie().getMovieName();
-       String theaterName = ticket.getShow().getTheater().getName();
-       LocalTime showTime = ticket.getShow().getShowTime();
-       String allotedSeats = bookedSeats.toString();//ticket.getAlloted_seats();
-
-       return ("Movie Name: " + movieName + "\n" +
-               "Theater Name: " + theaterName + "\n" +
-               "Show Time: " + showTime + "\n " +
-               "Alloted Seats: " + allotedSeats);
-   }
-   catch (Exception e)
-   {
-       throw new Exception("Unexpected Result");
-   }
-    }
 }
