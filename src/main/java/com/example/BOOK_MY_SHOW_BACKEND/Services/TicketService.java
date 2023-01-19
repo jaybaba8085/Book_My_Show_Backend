@@ -1,11 +1,7 @@
 package com.example.BOOK_MY_SHOW_BACKEND.Services;
-import com.example.BOOK_MY_SHOW_BACKEND.Models.ShowEntity;
-import com.example.BOOK_MY_SHOW_BACKEND.Models.ShowSeatEntity;
-import com.example.BOOK_MY_SHOW_BACKEND.Models.TicketEntity;
-import com.example.BOOK_MY_SHOW_BACKEND.Models.UserEntity;
-import com.example.BOOK_MY_SHOW_BACKEND.Repository.ShowRepository;
-import com.example.BOOK_MY_SHOW_BACKEND.Repository.TicketRepository;
-import com.example.BOOK_MY_SHOW_BACKEND.Repository.UserRepository;
+import com.example.BOOK_MY_SHOW_BACKEND.Enums.SeatType;
+import com.example.BOOK_MY_SHOW_BACKEND.Models.*;
+import com.example.BOOK_MY_SHOW_BACKEND.Repository.*;
 import com.example.BOOK_MY_SHOW_BACKEND.RequestDto.BookTicketRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TicketService {
@@ -25,6 +22,11 @@ public class TicketService {
 
     @Autowired
     TicketRepository ticketRepository;
+    @Autowired
+    private ShowSeatRepository showSeatRepository;
+
+    @Autowired
+    TheaterSeatRepository theaterSeatRepository;
 
     public String bookTicket(BookTicketRequestDto bookTicketRequestDto)throws Exception{
 
@@ -101,6 +103,53 @@ public class TicketService {
 
         ticketRepository.save(ticketEntity);
 
-        return "Sucessfully created a ticket";
+        return "Successfully created a ticket";
+    }
+
+    public String cancelBookedTicked(int ticketId) throws Exception {
+
+        Optional<TicketEntity> ticketEntity = ticketRepository.findById(ticketId);
+        TicketEntity ticket = ticketEntity.get();
+
+
+        List<ShowSeatEntity> bookedSeats = ticket.getBookedSeats();
+
+        ShowEntity showEntity = ticketEntity.get().getShow();
+        List<ShowSeatEntity> showSeats = showEntity.getListOfSeats();
+
+        List<TheaterSeatEntity> seats = new ArrayList<>();
+
+        for(ShowSeatEntity bookedseats : showSeats) {
+
+            String seatNo=bookedseats.getSeatNo();
+            SeatType st =bookedseats.getSeatType();
+            TheaterSeatEntity theaterSeat;
+            if(seatNo.charAt(0)=='1') {
+                theaterSeat = new TheaterSeatEntity(seatNo, st, 100);
+                seats.add(theaterSeat);
+            }
+            else {
+                theaterSeat = new TheaterSeatEntity(seatNo, st, 200);
+                seats.add(theaterSeat);
+            }
+
+        }
+
+        List<ShowSeatEntity> bookedSeatss = ticket.getBookedSeats();
+        for (ShowSeatEntity seat : bookedSeatss) {
+            seat.setBooked(false);
+            seat.setBookedAt(null);
+            seat.setTicket(null);
+            showSeatRepository.save(seat);
+        }
+        theaterSeatRepository.saveAll(seats);
+        ticketRepository.delete(ticket);
+
+        double charge =ticket.getAmount()* 0.2;
+
+        return  "Ticket Successfully Cancelled And Charge Deducted :" + charge ;
+    }
+
+    public String printTicket(int ticketId) {
     }
 }

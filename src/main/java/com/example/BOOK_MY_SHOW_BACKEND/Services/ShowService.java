@@ -46,10 +46,15 @@ public class ShowService {
 
         showEntity.setTheater(theaterEntity);
         showEntity.setMovie(movieEntity);
+
+
         //Optional things :  bcz we are doing a bidirectional mapping..>>
-//        List<ShowEntity> currentListOfShow = movieEntity.getListOfShows();
-//        currentListOfShow.add(showEntity);
-//        movieEntity.setListOfShows(currentListOfShow);
+        List<ShowEntity> currentListOfShow = movieEntity.getListOfShows();
+        currentListOfShow.add(showEntity);
+        movieEntity.setListOfShows(currentListOfShow);
+
+
+
         movieEntity.getListOfShows().add(showEntity);
         theaterEntity.getListOfShows().add(showEntity);
         //theaterRepository.save(theaterEntity);
