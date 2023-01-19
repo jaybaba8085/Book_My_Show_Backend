@@ -32,8 +32,13 @@ public class TicketController {
         }
 
         @GetMapping("/printTicket")
-    public String printTicket(@RequestBody int ticketId)
-        {
-            return ticketService.printTicket(ticketId);
+       public String printTicket(@RequestParam("id") int ticketId) throws Exception {
+
+            try {
+                return ticketService.printTicket(ticketId);
+            } catch (Exception e) {
+                return "Ticket Id Does Not Exist";
+            }
+
         }
     }
