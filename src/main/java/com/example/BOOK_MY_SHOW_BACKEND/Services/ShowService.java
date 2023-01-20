@@ -5,12 +5,14 @@ import com.example.BOOK_MY_SHOW_BACKEND.Repository.MovieRepository;
 import com.example.BOOK_MY_SHOW_BACKEND.Repository.ShowRepository;
 import com.example.BOOK_MY_SHOW_BACKEND.Repository.ShowSeatRepository;
 import com.example.BOOK_MY_SHOW_BACKEND.Repository.TheaterRepository;
+import com.example.BOOK_MY_SHOW_BACKEND.RequestDto.GetTimeRequestDto;
 import com.example.BOOK_MY_SHOW_BACKEND.RequestDto.ShowRequestDto;
+import com.example.BOOK_MY_SHOW_BACKEND.ResponseDto.ShowResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,5 +92,43 @@ public class ShowService {
         showSeatRepository.saveAll(seats);
 
         return seats;
+    }
+
+
+
+    //Get The List of show  between the given time
+    public List<ShowResponseDto> getShows(GetTimeRequestDto getTimeRequestDto){
+
+        LocalDateTime from=getTimeRequestDto.getFrom();
+
+        LocalDateTime to=getTimeRequestDto.getTo();
+
+
+       //It Contains ALl  Shows Which Are Added
+        List<ShowEntity> showEntityList=showRepository.findAll();
+
+
+        List<ShowResponseDto> showResponseDtoList = new ArrayList<>();
+
+
+        for(ShowEntity showEntity:showEntityList){
+
+            LocalDateTime showDateTime=
+                    LocalDateTime.of(showEntity.getShowDate(),showEntity.getShowTime());
+
+            if(showDateTime.compareTo(from)>=0 && showDateTime.compareTo(to)<=0)
+            {
+                ShowResponseDto showResponseDto
+                         = ShowResponseDto.builder()
+                        .id(showEntity.getId())
+                        .movieName(showEntity.getMovie().getMovieName())
+                        .theatreId(showEntity.getTheater().getId())
+                        .multiplier(showEntity.getMultiplier()).build();
+
+                showResponseDtoList.add(showResponseDto);
+            }
+        }
+
+        return showResponseDtoList;
     }
 }

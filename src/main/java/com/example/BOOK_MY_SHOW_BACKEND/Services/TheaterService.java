@@ -1,10 +1,13 @@
 package com.example.BOOK_MY_SHOW_BACKEND.Services;
 import com.example.BOOK_MY_SHOW_BACKEND.Enums.SeatType;
+import com.example.BOOK_MY_SHOW_BACKEND.Models.ShowEntity;
 import com.example.BOOK_MY_SHOW_BACKEND.Models.TheaterEntity;
 import com.example.BOOK_MY_SHOW_BACKEND.Models.TheaterSeatEntity;
+import com.example.BOOK_MY_SHOW_BACKEND.Repository.ShowRepository;
 import com.example.BOOK_MY_SHOW_BACKEND.Repository.TheaterRepository;
 import com.example.BOOK_MY_SHOW_BACKEND.Repository.TheaterSeatRepository;
 import com.example.BOOK_MY_SHOW_BACKEND.RequestDto.TheaterRequestDto;
+import com.example.BOOK_MY_SHOW_BACKEND.ResponseDto.TheaterResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,9 @@ public class TheaterService {
 
     @Autowired
     TheaterRepository theaterRepository;
+
+    @Autowired
+    ShowRepository showRepository;
 
     public String createTheater(TheaterRequestDto theaterRequestDto){
 
@@ -93,4 +99,48 @@ public class TheaterService {
 
 
 
+    //Get All the Theaters...
+    public List<TheaterResponseDto> getAllTheaterByMovie(String movieName) {
+
+        List<ShowEntity> showEntityList= showRepository.findAll();
+
+        List<TheaterResponseDto> theaterResponseDtoList = new ArrayList<>();
+
+        for (ShowEntity shows : showEntityList) {
+
+            if (shows.getMovie().getMovieName().equals(movieName))
+            {
+                TheaterEntity theater = shows.getTheater();
+                TheaterResponseDto theatreResponseDto = TheaterResponseDto.builder()
+                        .id(theater.getId())
+                        .name(theater.getName())
+                        .city(theater.getCity())
+                        .address(theater.getAddress()).build();
+
+                    theaterResponseDtoList.add(theatreResponseDto);
+            }
+        }
+        return theaterResponseDtoList;
+    }
+
+//
+//    public List<TheaterEntity> getAllTheatersByMovie(String movieName) {
+//
+//        List<ShowEntity> showEntityList= showRepository.findAll();
+//        List<TheaterEntity> theaterEntityList= new ArrayList<>();
+//
+//        TheaterEntity theaterEntity=new TheaterEntity();
+//
+//        for (ShowEntity shows : showEntityList) {
+//
+//            if (shows.getMovie().getMovieName().equals(movieName))
+//            {
+//                theaterEntity = shows.getTheater();
+//               theaterEntityList.add(theaterEntity);
+//            }
+//        }
+//        return theaterEntityList;
+//
+//
+//    }
 }
