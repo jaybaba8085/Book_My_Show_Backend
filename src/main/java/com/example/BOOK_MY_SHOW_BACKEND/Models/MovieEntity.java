@@ -31,4 +31,5 @@ public class MovieEntity {
     @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL)
     private List<ShowEntity> listOfShows;
 
+
 }
